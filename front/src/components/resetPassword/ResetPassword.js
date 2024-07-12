@@ -9,30 +9,24 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 import axios from 'axios'
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
-export default function SignInSide() {
+export default function ResetPassword() {
+  const { token } = useParams();
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    
-    var email = data.get("email");
     var password = data.get("password");
-    if(email ==='admin'&& password==='admin'){
-      localStorage.setItem('admin',true)
-      return navigate('/admin')
-    }
-    axios.post('http://localhost:3001/auth/login',{email,password}).then((res) =>{
-        if(res.status===200){
-          const { token } = res.data;
-          localStorage.setItem('token',token)
-          navigate("/user/dashboard");
+    axios.post('http://localhost:3001/auth/reset-password',{password,token}).then((res) =>{
+        if(res.status===201){
+          alert('Password changed successfully, you will be redirected to login in few seconds')
+          setInterval(()=>{navigate("/")},3000);
         }
       }).catch((err)=>{
         console.error(err.response.data)
@@ -74,7 +68,7 @@ export default function SignInSide() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Reset Your Password
             </Typography>
             <Box
               component="form"
@@ -86,18 +80,18 @@ export default function SignInSide() {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
               />
               <TextField
                 margin="normal"
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="Repeat Password"
                 type="password"
                 id="password"
                 autoComplete="current-password"
@@ -108,22 +102,9 @@ export default function SignInSide() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Change password
               </Button>
-              <Button
-                onClick={()=>navigate('/signup')}
-                variant="outlined"
-                sx={{ mt: 3, mb: 3 }}
-              >
-                Sign Up
-              </Button>
-              <Button
-                onClick={()=>navigate('/forgotpassword')}
-                variant="outlined"
-                sx={{ m:3 }}
-              >
-                Forgot Password
-              </Button>
+              
             </Box>
           </Box>
         </Grid>

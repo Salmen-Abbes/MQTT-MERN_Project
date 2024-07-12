@@ -27,14 +27,24 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 
 import AdminLayout from "layouts/Admin.js";
 import SignInSide from "components/sign in/SignInSide";
-
+import SignUpSide from "components/signUp/SignUpSide";
+import ForgotPassword from "components/forgetPassword/ForgetPassword";
+import AdminPage from "components/adminPage";
+import ResetPassword from "components/resetPassword/ResetPassword"; 
+import CameraPage from "components/adminCamera";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<SignInSide />} />
-      <Route path="/admin/*" element={<AdminLayout />} />
+      <Route path="/signup" element={<SignUpSide />} />
+      <Route path="/signup" element={<SignUpSide />} />
+      <Route path="/forgotpassword" element={<ForgotPassword />} />
+      <Route path="/reset/:token" element={<ResetPassword />} />
+      <Route path="/user/*" element={<AdminLayout />} />
+      <Route path="/admin" element={<AdminPage />} />
+      <Route path="/admin/camera" element={<CameraPage />} />
       {/*<Route path="/" element={<Navigate to="/admin/dashboard" replace />} />*/}
     </Routes>
   </BrowserRouter>

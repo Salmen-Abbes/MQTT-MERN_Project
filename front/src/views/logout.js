@@ -55,7 +55,11 @@ function Logout() {
                 </Row>
               </CardBody>
               <CardFooter>
-                <Button block color="danger" onClick={() => navigate("/")}>
+                <Button block color="danger" onClick={() => {
+                  navigate("/")
+                  localStorage.removeItem('token')
+                  localStorage.removeItem('admin');
+                }}>
                   Yes
                 </Button>
               </CardFooter>

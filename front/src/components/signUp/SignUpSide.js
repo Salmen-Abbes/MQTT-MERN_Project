@@ -16,23 +16,18 @@ import axios from 'axios'
 
 const defaultTheme = createTheme();
 
-export default function SignInSide() {
+export default function SignUpSide() {
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    
+    var name = data.get("name");
     var email = data.get("email");
     var password = data.get("password");
-    if(email ==='admin'&& password==='admin'){
-      localStorage.setItem('admin',true)
-      return navigate('/admin')
-    }
-    axios.post('http://localhost:3001/auth/login',{email,password}).then((res) =>{
-        if(res.status===200){
-          const { token } = res.data;
-          localStorage.setItem('token',token)
-          navigate("/user/dashboard");
+    axios.post('http://localhost:3001/auth/signup',{name,email,password}).then((res) =>{
+        if(res.status===201){
+          alert('Account Created Successfuly, you will be redirected to login in few seconds')
+          setInterval(()=>{navigate("/")},3000);
         }
       }).catch((err)=>{
         console.error(err.response.data)
@@ -74,7 +69,7 @@ export default function SignInSide() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Sign Up
             </Typography>
             <Box
               component="form"
@@ -86,11 +81,21 @@ export default function SignInSide() {
                 margin="normal"
                 required
                 fullWidth
+                id="name"
+                label="Full Name"
+                name="name"
+                autoComplete="name"
+                autoFocus
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
                 id="email"
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                autoFocus
+              
               />
               <TextField
                 margin="normal"
@@ -108,22 +113,9 @@ export default function SignInSide() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
-              </Button>
-              <Button
-                onClick={()=>navigate('/signup')}
-                variant="outlined"
-                sx={{ mt: 3, mb: 3 }}
-              >
                 Sign Up
               </Button>
-              <Button
-                onClick={()=>navigate('/forgotpassword')}
-                variant="outlined"
-                sx={{ m:3 }}
-              >
-                Forgot Password
-              </Button>
+              
             </Box>
           </Box>
         </Grid>

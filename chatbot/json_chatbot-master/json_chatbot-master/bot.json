@@ -1,0 +1,140 @@
+[
+  {
+    "response_type": "salutation",
+    "user_input": ["bonjour", "salut", "Hé"],
+    "bot_response": "Bonjour !",
+    "required_words": []
+  },
+  {
+    "response_type": "salutation",
+    "user_input": ["au revoir", "adieu", "À bientôt"],
+    "bot_response": "au revoir !",
+    "required_words": []
+  },
+  {
+    "response_type": "salutation",
+    "user_input": ["Enchanté", "de faire", "votre", "connaissance"],
+    "bot_response": "ravi de vous rencontrer !",
+    "required_words": ["Enchanté", "ravi"]
+  },
+  {
+    "response_type": "question",
+    "user_input": ["comment", "puis-je", "obtenir", "remboursement"],
+    "bot_response": "Nous n'offrons pas de remboursement",
+    "required_words": ["remboursement", "rembourser"]
+  },
+  {
+    "response_type": "question",
+    "user_input": ["comment", "vas-tu", "cv", "ça marche"],
+    "bot_response": "Je suis génial! Merci d'avoir posé la question.",
+    "required_words": ["cv", "vas-tu", "ça marche"]
+  },
+  {
+    "response_type": "question",
+    "user_input": [
+      "Qu",
+      "est",
+      "ce",
+      "que",
+      "plateforme",
+      "contrôle",
+      "données",
+      "climatiques"
+    ],
+    "bot_response": "La plateforme permet de surveiller à distance les données climatiques d'une ferme intelligente et d'envoyer des alertes en cas de dépassement de seuils critiques.",
+    "required_words": ["plateforme"]
+  },
+  {
+    "response_type": "question",
+    "user_input": ["Comment", "données", "climatiques", "collectées"],
+    "bot_response": "Nous utilisons des capteurs spécialisés pour mesurer la température, l'humidité et la pression. Ces capteurs envoient en continu les données à une base de données centralisée où elles sont analysées et surveillées.",
+    "required_words": ["collectées", "collection"]
+  },
+  {
+    "response_type": "question",
+    "user_input": ["Que", "seuils", "critiques", "franchis"],
+    "bot_response": "Ne manquez jamais un changement critique ! Notre système d'alertes instantanées vous assure une réactivité maximale pour protéger vos cultures et vos infrastructures.",
+    "required_words": ["seuils", "critiques"]
+  },
+  {
+    "response_type": "question",
+    "user_input": ["plateforme", "fonctionnalités", "surveillance"],
+    "bot_response": "Oui, nous offrons des fonctionnalités de surveillance",
+    "required_words": ["surveillance"]
+  },
+  {
+    "response_type": "question",
+    "user_input": ["application", "mobile", "recevoir", "alertes"],
+    "bot_response": "En cas de dépassement des seuils critiques de température ou d'humidité, notre application mobile envoie instantanément une notification pour que vous puissiez réagir sans délai.",
+    "required_words": ["application", "mobile", "alertes"]
+  },
+  {
+    "response_type": "question",
+    "user_input": ["plateforme", "fonctionnalités", "surveillance"],
+    "bot_response": "Oui, nous offrons des fonctionnalités de surveillance",
+    "required_words": ["surveillance"]
+  },
+  {
+    "response_type": "question",
+    "user_input": ["Qu", "que", "société", "Tactic"],
+    "bot_response": "l’entreprise Tac-Tic représente la division recherche et développement web du groupe. TAC-TIC est une entreprise tunisienne fondée en 2012, spécialisée dans la technologie Open Source, axée sur la fourniture de solutions efficaces et garantissant les fonctionnalités nécessaires à la réussite des entreprises tout en réduisant les coûts.",
+    "required_words": ["Tactic", "société"]
+  },
+  {
+    "response_type": "question",
+    "user_input": [
+      "Quelles",
+      "conditions",
+      "température",
+      "humidité",
+      "absorption",
+      "optimale",
+      "engrais",
+      "foliaires"
+    ],
+    "bot_response": "- Température d'application : Entre 15°C et 25°C.\n- Humidité relative idéale : 50% à 70%.\n- Appliquer tôt le matin ou en fin d'après-midi pour éviter les températures extrêmes et réduire l'évaporation.",
+    "required_words": ["foliaires", "absorption"]
+  },
+  {
+    "response_type": "question",
+    "user_input": ["température", "optimale", "stockage", "semances"],
+    "bot_response": "- Température recommandée : Entre 5°C et 15°C.\n- Pour des semences spécifiques comme les semences de légumes, 10°C à 20°C.\n- Les semences de fleurs préfèrent des températures de 10°C à 15°C pour le stockage.",
+    "required_words": ["semances", "température"]
+  },
+  {
+    "response_type": "question",
+    "user_input": ["humidité", "optimale", "stockage", "semances"],
+    "bot_response": "- Humidité relative de 30% à 50%.\n   - Utiliser des emballages hermétiques pour protéger les semences de l'humidité.\n- Une humidité relative trop élevée peut entraîner la germination prématurée et la croissance de moisissures.",
+    "required_words": ["semances", "humidité"]
+  },
+  {
+    "response_type": "question",
+    "user_input": [
+      "température",
+      "maximale",
+      "minimale",
+      "stockage",
+      "pesticides"
+    ],
+    "bot_response": "- Température maximale : 35°C.\n Température minimale : 0°C.\nPour les pesticides en solution, éviter les températures inférieures à 0°C pour prévenir la cristallisation.",
+    "required_words": ["pesticides", "température"]
+  },
+  {
+    "response_type": "question",
+    "user_input": ["humidité", "idéal", "stockage", "pesticides"],
+    "bot_response": "Humidité relative de 30% à 50%.\n Utiliser des contenants hermétiques pour empêcher l'absorption de l'humidité\nProtéger les produits de l'humidité élevée pour éviter la dégradation",
+    "required_words": ["pesticides", "humidité"]
+  },
+  {
+    "response_type": "question",
+    "user_input": ["évaporation", "rapide", "température", "pesticides"],
+    "bot_response": "- Température d'application : Éviter des températures supérieures à 30°C.\n - Humidité relative idéale lors de l'application : 50% à 70%.\n- Appliquer tôt le matin ou en fin d'après-midi pour maximiser l'efficacité.",
+    "required_words": ["pesticides", "évaporation"]
+  },
+  {
+    "response_type": "question",
+    "user_input": ["température", "micro-organismes", "stockage"],
+    "bot_response": "Température de stockage : 4°C à 10°C (réfrigéré).\n    - Conserver à l'abri de la lumière directe du soleil.\n   - Protéger des fluctuations de température pour maintenir l'efficacité",
+    "required_words": ["micro-organismes", "température"]
+  }
+]

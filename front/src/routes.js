@@ -18,20 +18,28 @@
 */
 import Dashboard from "views/Dashboard.js";
 import Logout from "views/logout";
+import Map from "views/Map";
 var routes = [
   {
     path: "/dashboard",
     name: "Dashboard",
     icon: "nc-icon nc-bank",
     component: <Dashboard />,
-    layout: "/admin",
+    layout: "/user",
   },
   {
-    path: "/maps",
+    path: "/map",
+    name: "Camera",
+    icon: "nc-icon nc-camera-compact",
+    component: <Map />,
+    layout: "/user",
+  },
+  {
+    path: "/logout",
     name: "Logout",
-    icon: "nc-icon nc-alert-circle-i",
+    icon: "nc-icon nc-button-power",
     component: <Logout />,
-    layout: "/admin",
+    layout: "/user",
   },
 ];
 export default routes;
