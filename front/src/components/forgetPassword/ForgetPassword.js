@@ -25,9 +25,7 @@ export default function ForgotPassword() {
     axios.post('http://localhost:3001/auth/forgot-password',{email}).then((res) =>{
         if(res.status===200){
           alert('Email sent successfully, you will be redirected to login in few seconds');
-          setTimeout(() => {
             navigate("/");
-          }, 3000);
         }
       }).catch((err)=>{
         console.error(err.response.data)
