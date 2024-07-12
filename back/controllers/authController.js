@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { findUserByEmail, createUser,updateUser,findUserById } = require('../models/userModel');
+const { findUserByEmail, createUser,updateUser,findUserById,setActive } = require('../models/userModel');
 const nodemailer = require('nodemailer');
 
 
@@ -21,6 +21,7 @@ const login = async (req, res) => {
   const validPass = await bcrypt.compare(password, user.password);
   if (!validPass) return res.status(400).json({ message: 'Invalid email or password' });
   const token = jwt.sign({ id: user.id, role: user.role }, '590dca403de6d33a3402e01b88b56ae0e26a36e6fd5f2ecd41e80841e2a0bb1a', { expiresIn: '1h' });
+  setActive(user.id,true);
   res.status(200).json({ token });
 };
 
@@ -121,7 +122,26 @@ const validate = async (req, res) => {
     res.status(401).json({ message: 'Invalid token' });
   }
 };
+
+const logout = async (req,res) => {
+  try {
+    const { token } = req.body;
+    const decoded = jwt.verify(token, '590dca403de6d33a3402e01b88b56ae0e26a36e6fd5f2ecd41e80841e2a0bb1a');
+    const user = await findUserById(decoded.id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    setActive(decoded.id,false)
+    res.status(200);
+  } catch (error) {
+    console.error(error);
+    res.status(401).json({ message: 'Invalid token' });
+  }
+  
+}
+
 module.exports = {
+  logout,
   signup,
   login,
   forgotPassword,

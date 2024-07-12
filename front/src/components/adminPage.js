@@ -326,6 +326,8 @@ const AdminPage = () => {
                 <TableRow>
                   <TableCell>Name</TableCell>
                   <TableCell>Email</TableCell>
+                  <TableCell>Last Log In</TableCell>
+                  <TableCell>Active</TableCell>
                   <TableCell align="right">Temperature</TableCell>
                   <TableCell align="right">Humidity</TableCell>
                   <TableCell align="right">Pressure</TableCell>
@@ -339,6 +341,8 @@ const AdminPage = () => {
                       {user.name}
                     </TableCell>
                     <TableCell>{user.email}</TableCell>
+                    <TableCell>{user.lastlog}</TableCell>
+                    <TableCell>{user.active? 'Connected':'Not Connected'}</TableCell>
                     <TableCell align="right">
                       <Switch
                         checked={user.access?.includes("T")}

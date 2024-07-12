@@ -16,6 +16,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+import axios from "axios";
 import React from "react";
 // react plugin used to create charts
 import { useNavigate } from "react-router-dom";
@@ -56,8 +57,18 @@ function Logout() {
               </CardBody>
               <CardFooter>
                 <Button block color="danger" onClick={() => {
+
                   navigate("/")
-                  localStorage.removeItem('token')
+                  const token = localStorage.getItem('token')
+                  if(token){
+                    axios.post('http://localhost:3001/auth/logout',{token}).then((response)=>{
+                      if(response.status===200){
+                        return localStorage.removeItem('token')
+                      }
+                    }).catch((err)=>{
+                      alert(err)
+                    })
+                  }
                   localStorage.removeItem('admin');
                 }}>
                   Yes

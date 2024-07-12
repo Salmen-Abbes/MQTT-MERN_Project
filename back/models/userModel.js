@@ -31,13 +31,26 @@ const findUserById = async (id) => {
   };
   const updateAccess = async (user)=>{
     const { id, access } = user;
-  const accessString = JSON.stringify(access);
-  await db.query('UPDATE users SET access = ? WHERE id = ?', [JSON.parse(accessString), id]);
+    const accessString = JSON.stringify(access);
+    await db.query('UPDATE users SET access = ? WHERE id = ?', [JSON.parse(accessString), id]);
   }
 
-// Other user-related functions...
+  const setActive = async (id, x) => {
+    
+    const active = x ? true : false;
+
+    const currentDate = new Date().toLocaleDateString('en-GB');
+
+    const lastlog = x ? currentDate : null;
+
+    await db.query(
+      'UPDATE users SET active = ?, lastlog = ? WHERE id = ?',
+      [active, lastlog, id]
+    );
+  }
 
 module.exports = {
+  setActive,
   findUserByEmail,
   createUser,
   getAllUsers,
