@@ -24,9 +24,9 @@ export default function ResetPassword() {
     const data = new FormData(event.currentTarget);
     var password = data.get("password");
     axios.post('http://localhost:3001/auth/reset-password',{password,token}).then((res) =>{
-        if(res.status===201){
+        if(res.status===200){
           alert('Password changed successfully, you will be redirected to login in few seconds')
-          setInterval(()=>{navigate("/")},3000);
+          return navigate("/");
         }
       }).catch((err)=>{
         console.error(err.response.data)

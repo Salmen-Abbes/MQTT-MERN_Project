@@ -27,7 +27,7 @@ export default function SignUpSide() {
     axios.post('http://localhost:3001/auth/signup',{name,email,password}).then((res) =>{
         if(res.status===201){
           alert('Account Created Successfuly, you will be redirected to login in few seconds')
-          setInterval(()=>{navigate("/")},3000);
+          return navigate("/");
         }
       }).catch((err)=>{
         console.error(err.response.data)
