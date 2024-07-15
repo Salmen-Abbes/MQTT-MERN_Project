@@ -1,26 +1,21 @@
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 import json
 import re
-import random_responses
+import random_responses  # Make sure to have this module
 import psycopg2
+
+app = Flask(__name__)
+CORS(app)
+
 # Define your database connection parameters
 db_params = {
     'dbname': 'Products',
     'user': 'postgres',
-    'password': 'chahine',
+    'password': 'root',
     'host': 'localhost',  # e.g., 'localhost' or an IP address
     'port': '5432'   # e.g., '5432'
 }
-# Create a cursor object to interact with the database
-cur = conn.cursor()
-# Example query: Select data from the table
-select_query = '''
-SELECT * FROM public.products
-ORDER BY "ID" ASC;
-'''
-cur.execute(select_query)
-# Fetch all rows from the executed query
-products = cur.fetchall()
-print(products)
 
 # Establish the connection
 try:
@@ -28,6 +23,26 @@ try:
     print("Connection successful")
 except Exception as e:
     print(f"Error: {e}")
+    conn = None
+
+if conn:
+    # Create a cursor object to interact with the database
+    cur = conn.cursor()
+
+    # Example query: Select data from the table
+    select_query = '''
+    SELECT * FROM public.products
+    ORDER BY "ID" ASC;
+    '''
+    cur.execute(select_query)
+
+    # Fetch all rows from the executed query
+    products = cur.fetchall()
+    print(products)
+
+    # Close the cursor and connection
+    cur.close()
+    conn.close()
 
 # Load JSON data
 def load_json(file):
@@ -35,10 +50,8 @@ def load_json(file):
         print(f"Loaded '{file}' successfully!")
         return json.load(bot_responses)
 
-
 # Store JSON data
 response_data = load_json("bot.json")
-
 
 def get_response(input_string):
     split_message = re.split(r'\s+|[,;?!.-]\s*', input_string.lower())
@@ -58,7 +71,6 @@ def get_response(input_string):
 
         # Amount of required words should match the required score
         if required_score == len(required_words):
-            # print(required_score == len(required_words))
             # Check each word the user has typed
             for word in split_message:
                 # If the word is in the response, add to the score
@@ -67,8 +79,6 @@ def get_response(input_string):
 
         # Add score to list
         score_list.append(response_score)
-        # Debugging: Find the best phrase
-        # print(response_score, response["user_input"])
 
     # Find the best response and return it if they're not all 0
     best_response = max(score_list)
@@ -84,7 +94,11 @@ def get_response(input_string):
 
     return random_responses.random_string()
 
+@app.route('/chat', methods=['POST'])
+def chat():
+    user_input = request.json.get('message')
+    response = get_response(user_input)
+    return jsonify({"response": response})
 
-while True:
-    user_input = input("You: ")
-    print("Bot:", get_response(user_input))
+if __name__ == '__main__':
+    app.run(debug=True, port=5050)

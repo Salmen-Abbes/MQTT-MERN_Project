@@ -1,21 +1,3 @@
-/*!
-
-=========================================================
-* Paper Dashboard React - v1.3.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/paper-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/main/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
 import { useLocation } from "react-router-dom";
 import {
@@ -25,6 +7,7 @@ import {
   NavbarBrand,
   Container,
 } from "reactstrap";
+
 
 import routes from "routes.js";
 
@@ -77,7 +60,8 @@ function Header(props) {
     }
   }, [location]);
   return (
-    // add or remove classes depending if we are on full-screen-maps page or not
+    <>
+    
     <Navbar
       color={
         location.pathname.indexOf("full-screen-maps") !== -1 ? "dark" : color
@@ -117,6 +101,8 @@ function Header(props) {
         </Collapse>
       </Container>
     </Navbar>
+   
+    </>
   );
 }
 
