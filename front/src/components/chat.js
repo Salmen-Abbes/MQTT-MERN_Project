@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Widget, addResponseMessage } from 'react-chat-widget';
+import {Widget, addResponseMessage,dropMessages } from 'react-chat-widget';
 import axios from 'axios';
 
 import 'react-chat-widget/lib/styles.css';
@@ -7,6 +7,7 @@ import 'react-chat-widget/lib/styles.css';
 
 export class Chat extends Component {
   componentDidMount() {
+    dropMessages();
     addResponseMessage('Welcome back Dear User!');
   }
 
