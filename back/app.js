@@ -5,8 +5,11 @@ const authRouter = require('./routers/authRouter');
 const adminRouter = require('./routers/adminRouter');
 const dataRouter = require('./routers/dataRouter');
 const { addData } = require('./controllers/dataController');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
 const app = express();
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(cors());
 app.use(express.json());
