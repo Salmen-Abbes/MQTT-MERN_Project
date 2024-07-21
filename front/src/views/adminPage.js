@@ -16,10 +16,11 @@ const AdminPage = () => {
 
   useEffect(() => {
     const admin = localStorage.getItem('admin');
+    console.log("admin", admin);
     if (!admin) {
       navigate('/');
     } else {
-      axios.get('http://localhost:3001/admin/users')
+      axios.get('http://localhost:8000/api/users')
         .then(res => {
             setUsers(res.data.users)
         })
@@ -35,7 +36,7 @@ const AdminPage = () => {
       return user;
     });
     setUsers(updatedUsers);
-    axios.put(`http://localhost:3001/admin/users`, { access: newAccess.join(','), id })
+    axios.post(`http://localhost:8000/api/update-permissions/${id}`,{ token: localStorage.getItem('token')}, { permissions: newAccess.join(',')})
       .catch(err => console.log(err));
   };
 

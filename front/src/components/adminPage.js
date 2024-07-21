@@ -31,23 +31,49 @@ import "./adminPage.css";
 const AdminPage = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
+  const [loginUsersDetails, setLoginUsersDetails] = useState([]);
   const [data, setData] = useState([]);
   const notificationAlertRef = useRef();
   const fetchUsers = ()=> {
+   const token = localStorage.getItem("token");
+    let config = {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem("token")
+      }
+    }
     axios
-        .get("http://localhost:3001/admin/users")
+        .get("http://localhost:8000/api/users", config)
         .then((res) => {
-          setUsers(res.data.users);
+          
+          setUsers(res.data);
+          
         })
         .catch((err) => console.log(err));
     }
-  
+  const fetchLoginUsersDetails = ()=> {
+       
+       let config = {
+         headers: {
+           'Authorization': 'Bearer ' + localStorage.getItem("token")
+         }
+       }
+       axios
+           .get("http://localhost:8000/api/history-connect-user", config)
+           .then((res) => {
+             setLoginUsersDetails(res.data);
+             
+           })
+           .catch((err) => console.log(err));
+      
+
+  }
   useEffect(() => {
     const admin = localStorage.getItem("admin");
     if (!admin) {
       navigate("/");
     } else {
       fetchUsers()
+      fetchLoginUsersDetails()
   }}, [navigate]);
 
   useEffect(() => {
@@ -133,6 +159,7 @@ const AdminPage = () => {
   };
 
   const handleAccessChange = (id, newAccess) => {
+    console.log("newAccess", newAccess);
     const updatedUsers = users.map((user) => {
       if (user.id === id) {
         return { ...user, access: newAccess.join(",") };
@@ -141,15 +168,23 @@ const AdminPage = () => {
     });
     setUsers(updatedUsers);
     axios
-      .put(`http://localhost:3001/admin/users`, {
-        access: newAccess.join(","),
-        id,
-      })
+      .post(`http://localhost:8000/api/update-permissions/${id},`, {
+        permissions: newAccess
+      },
+    {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem("token")
+      }
+    }
+    )
+      .then((res) => {
+        console.log(res.data);
+    })
       .catch((err) => console.log(err));
   };
 
   const handleDeleteUser = (id)=>{
-    axios.delete(`http://localhost:3001/admin/delete/${id}`).then((response)=>{
+    axios.delete(`http://localhost:8000/api/delete-users/${id}`,{headers: {'Authorization': 'Bearer ' + localStorage.getItem("token")}}).then((response)=>{
       if(response.status===200){
         fetchUsers();
       }
@@ -159,7 +194,9 @@ const AdminPage = () => {
   }
 
   const handleSwitchChange = (id, type, checked) => {
+   
     const user = users.find((user) => user.id === id);
+    console.log("user", user);
     let newAccess = user.access ? user.access.split(",") : [];
     if (checked) {
       newAccess.push(type);
@@ -168,7 +205,35 @@ const AdminPage = () => {
     }
     handleAccessChange(id, newAccess);
   };
-
+const handleRoleChange = (id,checked) => {
+  const user = users.find((user) => user.id === id);
+  let role ="";
+   if(checked){
+    role="admin";
+    checked=true
+   }else{
+    role="user";
+    checked=false
+   }
+  axios
+    .post(`http://localhost:8000/api/update-role/${id}`, {
+      role: role
+    },
+    {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem("token")
+      }
+    }
+    )
+    .then((res) => {
+      console.log(res.data);
+      fetchUsers();
+    })
+    .catch((err) => console.log(err));
+}
+const hasAdminAccess = (user) => {
+  return user.role === "admin";
+}
   const handleLogout = () => {
     localStorage.removeItem("admin");
     navigate("/");
@@ -327,10 +392,11 @@ const AdminPage = () => {
                   <TableCell>Name</TableCell>
                   <TableCell>Email</TableCell>
                   <TableCell>Last Log In</TableCell>
-                  <TableCell>Active</TableCell>
+                  {/* <TableCell>Active</TableCell> */}
                   <TableCell align="right">Temperature</TableCell>
                   <TableCell align="right">Humidity</TableCell>
                   <TableCell align="right">Pressure</TableCell>
+                  <TableCell align="right">Admin</TableCell>
                   <TableCell align="right">Actions</TableCell>
                 </TableRow>
               </TableHead>
@@ -341,8 +407,18 @@ const AdminPage = () => {
                       {user.name}
                     </TableCell>
                     <TableCell>{user.email}</TableCell>
-                    <TableCell>{user.lastlog}</TableCell>
-                    <TableCell>{user.active? 'Connected':'Not Connected'}</TableCell>
+                    <TableCell>
+  {(() => {
+    const userLoginDetails = loginUsersDetails.filter(
+      (loginUser) => loginUser.user_id === user.id
+    );
+    return userLoginDetails.length > 0
+      ? userLoginDetails[userLoginDetails.length - 1].login_time
+      : "";
+  })()}
+</TableCell>
+
+                    {/* <TableCell>{user.active? 'Connected':'Not Connected'}</TableCell> */}
                     <TableCell align="right">
                       <Switch
                         checked={user.access?.includes("T")}
@@ -367,6 +443,15 @@ const AdminPage = () => {
                         }
                       />
                     </TableCell>
+                    <TableCell align="right">
+                   <Switch
+                        checked={hasAdminAccess(user)}
+                        onChange={(e) =>
+                          handleRoleChange(user.id, e.target.checked)
+                        }
+                        disabled={localStorage.getItem("id_user") == user.id  ? true : false}
+                      />   
+                      </TableCell>
                     <TableCell align="right">
                       <IconButton aria-label="delete" onClick={()=>handleDeleteUser(user.id)}>
                         <DeleteIcon />

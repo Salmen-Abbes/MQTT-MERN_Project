@@ -5,7 +5,7 @@ import { useNavigate  } from "react-router-dom";
 import { Card, CardBody, CardFooter, CardTitle, Col, Row } from "reactstrap";
 import Chart from "react-apexcharts";
 
-const Dashboard = () => {
+const Dashboard = ({id}) => {
   const [data, setData] = useState([]);
   const [user, setUser] = useState(null);
   const notificationAlertRef = useRef();
@@ -21,7 +21,7 @@ const Dashboard = () => {
 
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/auth/validate", {
+        const response = await axios.get(`http://localhost:8000/api/user/${localStorage.getItem("id_user")}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -116,13 +116,15 @@ const Dashboard = () => {
     series: [10, 20, 30],
     labels: ["Temperature", "Humidity", "Pressure"],
   };
-
+  if(user   && user.permissions && user.permissions.includes("T")){
+    console.log('true' + user.permissions.includes("H"))
+  }
   return (
     <>
       <div className="content">
         <NotificationAlert ref={notificationAlertRef} />
         <Row>
-          {user && user.access.includes("T") && (
+          {user   && user.permissions && user.permissions.includes("T") && (
             <Col lg="3" md="6" sm="6">
               <Card className="card-stats">
                 <CardBody>
@@ -155,7 +157,7 @@ const Dashboard = () => {
               </Card>
             </Col>
           )}
-          {user && user.access.includes("H") && (
+          {user   && user.permissions && user.permissions.includes("H") && (
             <Col lg="3" md="6" sm="6">
               <Card className="card-stats">
                 <CardBody>
@@ -188,7 +190,7 @@ const Dashboard = () => {
               </Card>
             </Col>
           )}
-          {user && user.access.includes("P") && (
+          {user   && user.permissions && user.permissions.includes("P") && (
             <Col lg="3" md="6" sm="6">
               <Card className="card-stats">
                 <CardBody>

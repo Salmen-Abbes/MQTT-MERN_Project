@@ -22,7 +22,7 @@ export default function ForgotPassword() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     var email = data.get("email");
-    axios.post('http://localhost:3001/auth/forgot-password',{email}).then((res) =>{
+    axios.post('http://localhost:8000/api/password/email',{email}).then((res) =>{
         if(res.status===200){
           alert('Email sent successfully, you will be redirected to login in few seconds');
             navigate("/");

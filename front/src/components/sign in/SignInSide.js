@@ -11,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
+import Dashboard from "views/Dashboard";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -24,15 +25,23 @@ export default function SignInSide() {
     
     var email = data.get("email");
     var password = data.get("password");
-    if(email ==='admin'&& password==='admin'){
-      localStorage.setItem('admin',true)
-      return navigate('/admin')
-    }
-    axios.post('http://localhost:3001/auth/login',{email,password}).then((res) =>{
+   
+    axios.post('http://localhost:8000/api/login',{email,password}).then((res) =>{
+      
         if(res.status===200){
-          const { token } = res.data;
-          localStorage.setItem('token',token)
-          navigate("/user/dashboard");
+          const { token } = res.data.access_token;
+          
+          localStorage.setItem('token',res.data.access_token)
+          localStorage.setItem('id_user',res.data.user.id)
+          localStorage.setItem('role_connnected_user',res.data.user.role)
+          if(res.data.user.role ==='admin'){
+            localStorage.setItem('admin',true)
+            return navigate('/admin')
+          }
+          
+          
+          navigate("/user/dashboard"); 
+         
         }
       }).catch((err)=>{
         console.error(err.response.data)

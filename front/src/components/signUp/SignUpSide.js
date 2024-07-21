@@ -24,7 +24,7 @@ export default function SignUpSide() {
     var name = data.get("name");
     var email = data.get("email");
     var password = data.get("password");
-    axios.post('http://localhost:3001/auth/signup',{name,email,password}).then((res) =>{
+    axios.post('http://localhost:8000/api/register',{name,email,password}).then((res) =>{
         if(res.status===201){
           alert('Account Created Successfuly, you will be redirected to login in few seconds')
           return navigate("/");

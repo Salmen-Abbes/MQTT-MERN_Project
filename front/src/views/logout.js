@@ -61,7 +61,7 @@ function Logout() {
                   navigate("/")
                   const token = localStorage.getItem('token')
                   if(token){
-                    axios.post('http://localhost:3001/auth/logout',{token}).then((response)=>{
+                    axios.post('http://localhost:8000/api/logout',{token}).then((response)=>{
                       if(response.status===200){
                         return localStorage.removeItem('token')
                       }

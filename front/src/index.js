@@ -41,7 +41,7 @@ root.render(
       <Route path="/signup" element={<SignUpSide />} />
       <Route path="/signup" element={<SignUpSide />} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />
-      <Route path="/reset/:token" element={<ResetPassword />} />
+      <Route path="/reset-password/:token/:email" element={<ResetPassword />} />
       <Route path="/user/*" element={<AdminLayout />} />
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/admin/camera" element={<CameraPage />} />
