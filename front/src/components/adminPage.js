@@ -194,8 +194,7 @@ const AdminPage = () => {
   }
 
   const handleSwitchChange = (id, type, checked) => {
-   
-    const user = users.find((user) => user.id === id);
+     const user = users.find((user) => user.id === id);
     console.log("user", user);
     let newAccess = user.access ? user.access.split(",") : [];
     if (checked) {
@@ -232,7 +231,7 @@ const handleRoleChange = (id,checked) => {
     .catch((err) => console.log(err));
 }
 const hasAdminAccess = (user) => {
-  return user.role === "admin";
+  return user.role === "admin" || user.role === "superadmin";
 }
   const handleLogout = () => {
     localStorage.removeItem("admin");
@@ -421,7 +420,8 @@ const hasAdminAccess = (user) => {
                     {/* <TableCell>{user.active? 'Connected':'Not Connected'}</TableCell> */}
                     <TableCell align="right">
                       <Switch
-                        checked={user.access?.includes("T")}
+                        disabled={user.role==="superadmin"? true :false}
+                        checked={user.role==="superadmin" ? user.access?.includes("T") : true }
                         onChange={(e) =>
                           handleSwitchChange(user.id, "T", e.target.checked)
                         }
@@ -429,7 +429,8 @@ const hasAdminAccess = (user) => {
                     </TableCell>
                     <TableCell align="right">
                       <Switch
-                        checked={user.access?.includes("H")}
+                      disabled={user.role==="superadmin"? true :false}
+                        checked={user.role==="superadmin"? user.access?.includes("H") : true}
                         onChange={(e) =>
                           handleSwitchChange(user.id, "H", e.target.checked)
                         }
@@ -437,23 +438,25 @@ const hasAdminAccess = (user) => {
                     </TableCell>
                     <TableCell align="right">
                       <Switch
-                        checked={user.access?.includes("P")}
+                        disabled={user.role==="superadmin"? true :false}
+                        checked={user.role==="superadmin"?user.access?.includes("P") : true }
                         onChange={(e) =>
-                          handleSwitchChange(user.id, "P", e.target.checked)
+                          handleSwitchChange(user.id, "P", e.target.checked,user.role)
                         }
                       />
                     </TableCell>
                     <TableCell align="right">
                    <Switch
+                      
                         checked={hasAdminAccess(user)}
                         onChange={(e) =>
                           handleRoleChange(user.id, e.target.checked)
                         }
-                        disabled={localStorage.getItem("id_user") == user.id  ? true : false}
+                        disabled={localStorage.getItem("id_user") == user.id || user.role ==="superadmin"  ? true : false}
                       />   
                       </TableCell>
                     <TableCell align="right">
-                      <IconButton aria-label="delete" onClick={()=>handleDeleteUser(user.id)}>
+                      <IconButton aria-label="delete" disabled={ localStorage.getItem("id_user") == user.id || user.role ==="superadmin"  ? true : false} onClick={()=>handleDeleteUser(user.id)}>
                         <DeleteIcon />
                       </IconButton>
                     </TableCell>

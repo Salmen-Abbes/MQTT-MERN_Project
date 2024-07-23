@@ -116,9 +116,7 @@ const Dashboard = ({id}) => {
     series: [10, 20, 30],
     labels: ["Temperature", "Humidity", "Pressure"],
   };
-  if(user   && user.permissions && user.permissions.includes("T")){
-    console.log('true' + user.permissions.includes("H"))
-  }
+ 
   return (
     <>
       <div className="content">

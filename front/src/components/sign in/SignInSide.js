@@ -34,13 +34,17 @@ export default function SignInSide() {
           localStorage.setItem('token',res.data.access_token)
           localStorage.setItem('id_user',res.data.user.id)
           localStorage.setItem('role_connnected_user',res.data.user.role)
-          if(res.data.user.role ==='admin'){
+          if(res.data.user.role ==='admin' ){
             localStorage.setItem('admin',true)
-            return navigate('/admin')
+              navigate('/admin')
+          }else if(res.data.user.role ==='superadmin' ){
+            localStorage.setItem('admin',true)
+             navigate('/admin')
+          }else {
+              navigate("/user/dashboard"); 
           }
           
-          
-          navigate("/user/dashboard"); 
+        
          
         }
       }).catch((err)=>{
